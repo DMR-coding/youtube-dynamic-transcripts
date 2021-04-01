@@ -1,28 +1,6 @@
-# PfDK files for inclusion in Canvas.
-
-
-To include new javascript/css files, edit the [modules/modules.js](https://github.com/PfDK/PfDK.github.io/blob/master/modules/modules.js) and/or [modules/modules.css](https://github.com/PfDK/PfDK.github.io/blob/master/modules/modules.css) files and add your files as shown below:
-
-## JS files inclusion
-
-At the bottom of the modules.js file you will find the code below. Add a $.getScript line for your javascript file. Make sure it resides on a secure (https) server.
-
-```
-$.getScript("https://pfdk.github.io/frontend/youtube.js");
-//$.getScript("https://pfdk.github.io/frontend/yourfile.js");
-```
-## CSS files inclusion
-Add your css file with a new @import statement to the modules.css file. Make sure it resides on a secure (https) server.
-```
-@import "https://pfdk.github.io/modules/youtube.css";
-/*
-@import "https://pfdk.github.io/modules/yourfile.css";
-*/
-```
-
 
 # Interactive YouTube transcripts
-For historic reasons, the youtube transcript source files are in this top directory. Read below on how to use the code.
+
 ## Features
 * Show complete transcript for subtitles in selected language.
 * Highlight the subtitle that is being spoken.
@@ -32,12 +10,6 @@ For historic reasons, the youtube transcript source files are in this top direct
 If you download the files in this directory and open ytexample.html, you should have a working example. You can also have a look at [http://www.erlendthune.com/yt/ytexample.html](http://www.erlendthune.com/yt/ytexample.html) where these files are unpacked, showing a working example.
 
 To make interactive youtube transcripts work in your own web pages, you must follow these steps:
-
-## If you use Canvas LMS:
-1. Upload youtube.css and youtube.js in your [custom theme editor](https://community.canvaslms.com/docs/DOC-10862).
-2. Follow step 4 and on in the section below.
-
-## In other cases:
 1. Make sure you have loaded jquery.
 2. Load youtube.js
 3. Include youtube.css
