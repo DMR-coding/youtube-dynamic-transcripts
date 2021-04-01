@@ -3,13 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="youtube.js"></script>
-    <link href="youtube.css" rel="stylesheet">
+    <script src="./youtube.js"></script>
+    <link href="./youtube.css" rel="stylesheet">
 <body>
 <p>
     <iframe allowfullscreen="allowfullscreen" height="315" id="Lm0m4VtZ3Us" src="https://www.youtube.com/embed/Lm0m4VtZ3Us?enablejsapi=1"
             width="560"></iframe>
 </p>
-<div class="mmocVideoTranscript" data-language="no" data-name="bokm&aring;l" id="videoTranscriptLm0m4VtZ3Us"></div>
+<div class="mmocVideoTranscript" id="transcript-Lm0m4VtZ3Us"></div>
+<script>
+    window.ytdt.youtube.init("Lm0m4VtZ3Us", "no", "bokmål")
+</script>
+<p>
+<iframe allowfullscreen="allowfullscreen" height="315" id="tnsB6YCHVXA" src="https://www.youtube.com/embed/tnsB6YCHVXA?enablejsapi=1"
+            width="560"></iframe>
+</p>
+<div class="mmocVideoTranscript" id="transcript-tnsB6YCHVXA"></div>
+<script>
+    window.ytdt.youtube.init("tnsB6YCHVXA", "en", "English")
+</script>
+
+<p>
+<iframe allowfullscreen="allowfullscreen" height="315" id="S2Cti12XBw4" src="https://www.youtube.com/embed/S2Cti12XBw4?enablejsapi=1"
+            width="560"></iframe>
+</p>
+<div class="mmocVideoTranscript" id="transcript-S2Cti12XBw4"></div>
+<script>
+    window.ytdt.youtube.init("S2Cti12XBw4", "en", "en")
+</script>
 </body>
 </html>

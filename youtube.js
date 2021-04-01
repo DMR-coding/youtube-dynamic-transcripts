@@ -1,20 +1,21 @@
 window.ytdt = window.ytdt || {}
 
+const LOADING = 'Loading transcript...'
+const FAILED_LOAD = '⚠️ Could not load transcript.'
+
 // https://medium.com/@pointbmusic/youtube-api-checklist-c195e9abaff1
 window.ytdt.youtube = (function () {
   const hrefPrefix = 'https://video.google.com/timedtext?v='
-  const transcriptIdPrefix = 'videoTranscript'
   const transcriptArr = []
-  let initialized = false
+  let bootstrapped = false
+  const pendingInits = []
 
-  function Transcript (transcriptId, language, name) {
-    const videoId = transcriptId.split(transcriptIdPrefix)[1]
-
+  function Transcript (videoId, language, name) {
     let href = hrefPrefix + videoId
-    if (language !== '') {
+    if (language) {
       href = href + '&lang=' + language
     }
-    if (name !== '') {
+    if (name) {
       href = href + '&name=' + name
     }
 
@@ -29,6 +30,10 @@ window.ytdt.youtube = (function () {
     // Keep track of which captions we are showing
     let currentCaptionIndex = 0
     let nextCaptionIndex = 0
+
+    this.$transcript = $('#' + 'transcript-' + videoId)
+
+    this.$transcript.text(LOADING)
 
     this.player = new YT.Player(videoId, {
       videoId: videoId,
@@ -150,6 +155,11 @@ window.ytdt.youtube = (function () {
     }
 
     this.transcriptLoaded = function (transcript) {
+      if (!transcript) {
+        this.$transcript.text(FAILED_LOAD)
+        return
+      }
+
       let start = 0
       captions = transcript.getElementsByTagName('text')
       let srtOutput = "<div class='btnSeek' id='btnSeek' data-seek='0'>0:00</div>"
@@ -162,12 +172,12 @@ window.ytdt.youtube = (function () {
         srtOutput += "<span class='btnSeek' data-seek='" + start + "' id='" + timestampId + "'>" + captionText + '</span> '
       }
 
-      $('#videoTranscript' + videoId).append(srtOutput)
+      this.$transcript.append(srtOutput)
       captionsLoaded = true
     }
 
     this.getTranscriptId = function () {
-      return transcriptId
+      return 'transcript-' + videoId
     }
     this.getVideoId = function () {
       return videoId
@@ -260,19 +270,22 @@ window.ytdt.youtube = (function () {
     },
 
     APIReady: function () {
-      if (!initialized) {
-        $('.mmocVideoTranscript').each(function (i) {
-          const language = $(this).data('language')
-          const name = $(this).data('name')
-          const oTranscript = new Transcript(this.id, language, name)
-          oTranscript.getTranscript()
-          transcriptArr.push(oTranscript)
-        })
-        initialized = true
+      if (!bootstrapped) {
+        bootstrapped = true
+
+        while (pendingInits.length > 0) {
+          window.ytdt.youtube.init.apply(this, pendingInits.pop())
+        }
       }
     },
-    init: function () {
-      this.APIReady()
+    init: function (videoId, language, name) {
+      if (bootstrapped) {
+        const oTranscript = new Transcript(videoId, language, name)
+        oTranscript.getTranscript()
+        transcriptArr.push(oTranscript)
+      } else {
+        pendingInits.push([videoId, language, name])
+      }
     }
   }
 }())
