@@ -1,0 +1,11 @@
+{
+  "name": "youtube-dynamic-transcripts",
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-standard": "latest",
+    "eslint-plugin-googleappsscript": "^1.0.3",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  }
+}
