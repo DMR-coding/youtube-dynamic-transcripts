@@ -1,23 +1,28 @@
-module.exports = { // noqa , ironically
+module.exports = {
   env: {
     browser: true,
     es2021: true,
-    'googleappsscript/googleappsscript': true,
-    jquery: true
   },
   extends: [
-    'standard'
+    'airbnb-base',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 12
-  },
-  rules: {
-  },
-  globals: {
-    $: 'readonly',
-    YT: 'readonly'
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
   plugins: [
-    'googleappsscript'
-  ]
-}
+    '@typescript-eslint',
+  ],
+  rules: {
+    'import/prefer-default-export': 0,
+    'import/no-default-export': 'error',
+    'no-param-reassign': ['error', { props: false }],
+    'no-use-before-define': 0,
+    'import/extensions': ['error', 'never'],
+  },
+  settings: {
+    'import/resolver': 'webpack',
+  },
+  ignorePatterns: ['dist'],
+};

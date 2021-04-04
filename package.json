@@ -1,11 +1,41 @@
 {
   "name": "youtube-dynamic-transcripts",
   "devDependencies": {
-    "eslint": "^7.12.1",
+    "@babel/core": "^7.13.14",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/pug": "^2.0.4",
+    "@types/youtube": "^0.0.42",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "add": "^2.0.6",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-standard": "latest",
+    "eslint-import-resolver-node": "^0.3.4",
+    "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-googleappsscript": "^1.0.3",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1"
+    "eslint-plugin-promise": "^4.2.1",
+    "html-webpack-plugin": "^5.3.1",
+    "source-map-loader": "^2.0.1",
+    "ts-loader": "^8.1.0",
+    "typescript": "^4.2.3",
+    "webpack": "^5.30.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-typescript": "^0.5.6",
+    "yarn": "^1.22.10"
+  },
+  "dependenciesMeta": {
+    "webpack-dev-server": {
+      "unplugged": true
+    }
+  },
+  "dependencies": {
+    "html-loader": "^2.1.2"
   }
 }
