@@ -1,9 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: [
+    './src/index.ts',
+    './src/index.scss',
+  ],
   mode: 'development',
   devtool: 'source-map',
   module: {
@@ -13,17 +15,23 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.html$/i,
-        loader: 'html-loader',
+        test: /\.s[ca]ss$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'bundle.css',
+            },
+          },
+          'extract-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
 
+        ],
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: 'src/index.html',
-    scriptLoading: 'blocking',
-    inject: 'head',
-  })],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -32,7 +40,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: [
+      path.join(__dirname, 'dist'),
+      path.join(__dirname, 'static'),
+    ],
     port: 9000,
     https: true,
   },

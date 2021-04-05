@@ -14,17 +14,28 @@ export function toggleClass(node: HTMLElement, className: string, force?: boolea
 }
 
 export function stringFilter(classNames: string, className: string, separator: string): string {
-  return className
+  return classNames
     .split(separator)
     .filter((c) => c !== className)
     .join(separator);
 }
 
-export function get(url: string): Promise<string> {
+export function get(url: string): Promise<Document> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
-    xhr.onload = () => { resolve(xhr.responseText); };
+    xhr.responseType = 'document';
+    xhr.onload = () => { resolve(xhr.response); };
     xhr.onerror = () => { reject(xhr.status); };
+
+    xhr.send();
   });
+}
+
+export function isWithinParentViewport(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  const parentRect = element.parentElement.getBoundingClientRect();
+  return (
+    rect.top >= parentRect.top && rect.bottom <= parentRect.bottom
+  );
 }

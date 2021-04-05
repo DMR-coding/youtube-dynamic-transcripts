@@ -1,26 +1,31 @@
 {
   "name": "youtube-dynamic-transcripts",
+  "version": "0.2.0",
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-typescript": "^7.13.0",
-    "@types/pug": "^2.0.4",
     "@types/youtube": "^0.0.42",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
     "add": "^2.0.6",
     "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.0",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-standard": "latest",
     "eslint-import-resolver-node": "^0.3.4",
     "eslint-import-resolver-webpack": "^0.13.0",
-    "eslint-plugin-googleappsscript": "^1.0.3",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "html-webpack-plugin": "^5.3.1",
+    "extract-loader": "^5.1.0",
+    "file-loader": "^6.2.0",
+    "postcss": "^8.2.9",
+    "postcss-loader": "^5.2.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1",
     "source-map-loader": "^2.0.1",
     "ts-loader": "^8.1.0",
     "typescript": "^4.2.3",
@@ -34,8 +39,5 @@
     "webpack-dev-server": {
       "unplugged": true
     }
-  },
-  "dependencies": {
-    "html-loader": "^2.1.2"
   }
 }
