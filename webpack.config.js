@@ -20,7 +20,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'bundle.css',
+              name: 'youtube-dynamic-transcripts.min.css',
             },
           },
           'extract-loader',
@@ -36,7 +36,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'youtube-dynamic-transcripts.min.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
