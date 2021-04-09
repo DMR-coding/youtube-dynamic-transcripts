@@ -74,7 +74,7 @@ export class Transcript {
 
       this.captions.push(caption);
       this.captionBox.append(caption.domElement);
-      this.captionBox.scrollTo(0, 0);
+      this.captionBox.scrollTop = 0;
     }
   }
 
@@ -120,7 +120,8 @@ export class Transcript {
       if (!isWithinParentViewport(this.currentCaption.domElement)) {
         // Defer this so that it'll take effect after the page gets updated with the highlight class
         setTimeout(() => {
-          this.currentCaption.domElement.scrollIntoView();
+          const offset = this.currentCaption.domElement.offsetTop;
+          this.captionBox.scrollTop = offset;
         }, 0);
       }
     }
