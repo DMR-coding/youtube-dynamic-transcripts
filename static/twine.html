@@ -97,7 +97,14 @@ window.relyOnYTDT = function(callback) {
 		callback();
 	} else {
 			cachedGetScript('./youtube-dynamic-transcripts.min.js', function(){
-				cachedGetScript('https://www.youtube.com/iframe_api', callback);
+				var ytdt = window.ytdt;
+				cachedGetScript('https://www.youtube.com/iframe_api', function(){
+					var YT = window.YT;
+					
+					console.log(ytdt, YT);
+					
+					callback(ytdt, YT);
+				});
 			});
 	}
 }</script><tw-passagedata pid="1" name="Test" tags="" position="50,383" size="100,100">
