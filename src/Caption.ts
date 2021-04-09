@@ -13,7 +13,7 @@ export class Caption {
     this.end = end;
     this.start = start;
     this.domElement = document.createElement('a');
-    this.domElement.textContent = text;
+    this.domElement.innerHTML = text;
     this.domElement.className = 'caption';
   }
 }

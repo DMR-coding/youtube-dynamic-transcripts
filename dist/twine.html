@@ -10,7 +10,6 @@
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play liminal beings v1.</tw-noscript></noscript></tw-story>
 <tw-storydata name="liminal beings v1" startnode="42" creator="Twine" creator-version="2.3.13" ifid="3649B83D-17A2-4596-8B38-7F565A66D1C7" zoom="0.6" format="Harlowe" format-version="3.2.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
-@import url('./youtube-dynamic-transcripts.min.css');
 
 body, tw-story {
 	font-family: 'Josefin Sans', sans-serif;
@@ -49,6 +48,42 @@ tw-story[tags="salmon"] {
   background-color: #FFBDBD;
   background-size: cover;
 }
+
+
+
+.ytdt {
+	display: flex;
+	flex-direction: column
+}
+
+.ytdt .toggle {
+	width: -webkit-max-content;
+	width: max-content
+}
+
+.ytdt .captions {
+	margin: 1rem;
+	height: 15rem;
+	overflow-x: scroll
+}
+
+.ytdt .captions.closed {
+	display: none
+}
+
+.ytdt .caption {
+	cursor: pointer;
+	display: flex;
+  	opacity: 70%;
+}
+
+.ytdt .caption.highlight {
+	font-size: 120%;
+  	border: solid 1px white;
+  	opacity: initial;
+}
+
+
 
 tw-sidebar {
   display: none;
