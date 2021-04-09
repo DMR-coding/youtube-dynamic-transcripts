@@ -89,6 +89,7 @@ export class Transcript {
   }
 
   onStateChange = (event: YT.OnStateChangeEvent) => {
+    console.log(event);
     if (event.data === YT.PlayerState.PLAYING) {
       this.started();
     } else {
