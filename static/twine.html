@@ -84,17 +84,21 @@ iframe {
          (d.body || d.head).appendChild(s);})(document)
 
 
-$.getScript('https://www.youtube.com/iframe_api');
+window.cachedGetScript = function(url, callback) {
+	$.ajax({
+		dataType: "script",
+		cache: true,
+		url: url
+	}).done(callback);
+}
 
 window.relyOnYTDT = function(callback) {
-	if(window.ytdt) {
+	if(window.ytdt && window.YT) {
 		callback();
 	} else {
-			$.ajax({
-				dataType: "script",
-				cache: true,
-				url: './youtube-dynamic-transcripts.min.js'
-			}).done(callback);
+			cachedGetScript('./youtube-dynamic-transcripts.min.js', function(){
+				cachedGetScript('https://www.youtube.com/iframe_api', callback);
+			});
 	}
 }</script><tw-passagedata pid="1" name="Test" tags="" position="50,383" size="100,100">
 #liminal beings
