@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -8,6 +10,14 @@ module.exports = {
   ],
   mode: 'development',
   devtool: 'source-map',
+  plugins: [
+    new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: 'static/*', to: '[name][ext]' },
+      ],
+    }),
+  ],
   module: {
     rules: [
       {
