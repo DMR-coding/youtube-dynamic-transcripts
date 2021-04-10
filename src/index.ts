@@ -5,9 +5,9 @@ const transcripts: Transcript[] = [];
 
 const ytdt = {
   Transcript,
-  init: (videoId: string, lang: string, name:string) => {
+  init: (videoId: string, lang: string, name:string, getPlayer?: () => HTMLElement) => {
     if (window.YT && window.YT.Player) {
-      transcripts.push(new Transcript(videoId, lang, name));
+      transcripts.push(new Transcript(videoId, lang, name, getPlayer));
     } else {
       pendingInits.push([videoId, lang, name]);
     }

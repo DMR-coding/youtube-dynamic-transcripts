@@ -16,6 +16,8 @@ const TRANSCRIPT_URL = 'https://video.google.com/timedtext?v=';
 export class Transcript {
   private player: YT.Player;
 
+  private playerElement: HTMLElement
+
   private captionTimeout?: number;
 
   private currentCaption?: Caption;
@@ -30,8 +32,20 @@ export class Transcript {
 
   private container: HTMLElement;
 
-  constructor(videoID: string, lang: string, transcriptName: string) {
+  constructor(
+    videoID: string, lang: string, transcriptName: string, getPlayer?: () => HTMLElement,
+  ) {
     this.videoID = videoID;
+
+    if (getPlayer) {
+      this.playerElement = getPlayer();
+    } else {
+      this.playerElement = document.getElementById(this.videoID);
+    }
+
+    if (!this.playerElement) {
+      throw new ReferenceError("Couldn't locate video embed frame.");
+    }
 
     let url = TRANSCRIPT_URL + videoID;
 
@@ -161,7 +175,7 @@ export class Transcript {
     this.captionBox.className = 'captions closed';
     this.container.append(this.captionBox);
 
-    document.getElementById(this.videoID).after(this.container);
+    this.playerElement.after(this.container);
   }
 
   toggle = () => {
