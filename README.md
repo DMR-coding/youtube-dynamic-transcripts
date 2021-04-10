@@ -61,3 +61,6 @@ Example snippet for installing on a Squarespace page:
 
 <span id="ytdt-container-target" class='sqsrte-small'/> 
 ```
+
+## Acknowledgements
+Thanks to [Erlend Thune](https://github.com/erlendthune) for writing the demo application on which the basic principles of this tool were based.
