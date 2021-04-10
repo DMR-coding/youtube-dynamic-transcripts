@@ -1,15 +1,16 @@
 import { Transcript } from './Transcript';
 
-const pendingInits: [string, string, string][] = [];
+const pendingInits: [string, string, string, inserter][] = [];
 const transcripts: Transcript[] = [];
+type inserter = (transcript: HTMLElement) => void
 
 const ytdt = {
   Transcript,
-  init: (videoId: string, lang: string, name:string, getPlayer?: () => HTMLElement) => {
+  init: (videoId: string, lang: string, name:string, insertTranscript?: inserter) => {
     if (window.YT && window.YT.Player) {
-      transcripts.push(new Transcript(videoId, lang, name, getPlayer));
+      transcripts.push(new Transcript(videoId, lang, name, insertTranscript));
     } else {
-      pendingInits.push([videoId, lang, name]);
+      pendingInits.push([videoId, lang, name, insertTranscript]);
     }
   },
 };

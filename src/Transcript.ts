@@ -33,15 +33,10 @@ export class Transcript {
   private container: HTMLElement;
 
   constructor(
-    videoID: string, lang: string, transcriptName: string, getPlayer?: () => HTMLElement,
+    videoID: string, lang: string, transcriptName: string,
+    insertContainer?: (container: HTMLElement) => void,
   ) {
     this.videoID = videoID;
-
-    if (getPlayer) {
-      this.playerElement = getPlayer();
-    } else {
-      this.playerElement = document.getElementById(this.videoID);
-    }
 
     if (!this.playerElement) {
       throw new ReferenceError("Couldn't locate video embed frame.");
@@ -57,7 +52,13 @@ export class Transcript {
       url += `&name=${transcriptName}`;
     }
 
-    this.appendContainer();
+    this.generateContainer();
+    if (insertContainer) {
+      insertContainer(this.container);
+    } else {
+      this.insertAfterVideoFrame(this.container);
+    }
+
     this.loadCaptions(url);
 
     this.player = new YT.Player(videoID, {
@@ -161,7 +162,7 @@ export class Transcript {
     this.captionTimeout = null;
   }
 
-  appendContainer= () => {
+  generateContainer= () => {
     this.container = document.createElement('div');
     this.container.className = 'ytdt';
 
@@ -174,8 +175,18 @@ export class Transcript {
     this.captionBox = document.createElement('div');
     this.captionBox.className = 'captions closed';
     this.container.append(this.captionBox);
+  }
 
-    this.playerElement.after(this.container);
+  insertAfterVideoFrame = (el: HTMLElement) => {
+    try {
+      document.getElementById(this.videoID).after(el);
+    } catch (e) {
+      if (e instanceof TypeError) {
+        throw new ReferenceError("Couldn't insert caption container by player ID.");
+      } else {
+        throw e;
+      }
+    }
   }
 
   toggle = () => {
