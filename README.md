@@ -12,7 +12,7 @@ This tool has no runtime dependencies except the YouTube API itself.
 1. Include the ytdt script from your server or from a CDN. (See the github Releases screen for jsDelivr CDN links.)
 1. Include the project styles in a `<link>` or CSS `@import` statement - OR - write your own styles, targeting the same classes.
 1. Install the YouTube API. See the [YouTube documentation](https://developers.google.com/youtube/iframe_api_reference) for more detail.
-    1. Ensure the embed frame has the URL param `jsequal=1` in its video URL.
+    1. Ensure the embed frame has the URL param `enablejsapi=1` in its video URL.
     1. Include the API script (`https://www.youtube.com/iframe_api`)
 1. For each video you want to add a transcript for, call the `ytdt.init` function.
 
