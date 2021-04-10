@@ -6,9 +6,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   entry: [
     './src/index.ts',
-    './src/index.scss',
+    './src/index.css',
   ],
-  mode: 'development',
+  mode: 'production',
   devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin(),
@@ -25,19 +25,15 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.s[ca]ss$/i,
+        test: /\.css$/i,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: 'youtube-dynamic-transcripts.min.css',
+              name: 'youtube-dynamic-transcripts.css',
             },
           },
-          'extract-loader',
-          'css-loader',
           'postcss-loader',
-          'sass-loader',
-
         ],
       },
     ],
