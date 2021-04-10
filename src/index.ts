@@ -1,16 +1,15 @@
 import { Transcript } from './Transcript';
 
-const pendingInits: [string, string, string, inserter][] = [];
+const pendingInits: ConstructorParameters<typeof Transcript>[] = [];
 const transcripts: Transcript[] = [];
-type inserter = (transcript: HTMLElement) => void
 
 const ytdt = {
   Transcript,
-  init: (videoId: string, lang: string, name:string, insertTranscript?: inserter) => {
+  init: (...args: ConstructorParameters<typeof Transcript>) => {
     if (window.YT && window.YT.Player) {
-      transcripts.push(new Transcript(videoId, lang, name, insertTranscript));
+      transcripts.push(new Transcript(...args));
     } else {
-      pendingInits.push([videoId, lang, name, insertTranscript]);
+      pendingInits.push(args);
     }
   },
 };

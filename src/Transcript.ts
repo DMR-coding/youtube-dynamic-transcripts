@@ -1,6 +1,7 @@
 /// <reference types="@types/youtube" />
 /* global YT */
 import {
+  assertExists,
   get, isWithinParentViewport, toggleClass,
 } from './utility';
 import { Caption } from './Caption';
@@ -16,11 +17,9 @@ const TRANSCRIPT_URL = 'https://video.google.com/timedtext?v=';
 export class Transcript {
   private player: YT.Player;
 
-  private playerElement: HTMLElement
+  private captionTimeout: number | null = null;
 
-  private captionTimeout?: number;
-
-  private currentCaption?: Caption;
+  private currentCaption: Caption | null | undefined = null;
 
   private captions: Caption[] = [];
 
@@ -34,6 +33,7 @@ export class Transcript {
 
   constructor(
     videoID: string, lang: string, transcriptName: string,
+    frameID?: string, // Defaults to same as videoID
     insertContainer?: (container: HTMLElement) => void,
   ) {
     this.videoID = videoID;
@@ -57,10 +57,12 @@ export class Transcript {
 
     this.loadCaptions(url);
 
-    this.player = new YT.Player(videoID, {
-      videoId: videoID,
-      events: { onStateChange: this.onStateChange },
-    });
+    this.player = new YT.Player(
+      frameID || videoID, {
+        videoId: videoID,
+        events: { onStateChange: this.onStateChange },
+      },
+    );
   }
 
   loadCaptions = (captionsURL: string) => {
@@ -75,17 +77,25 @@ export class Transcript {
     this.captionBox.textContent = '';
 
     for (let i = 0; i < xmlCaptions.length; i += 1) {
-      const start: number = +xmlCaptions[i].getAttribute('start');
-      const end: number = +xmlCaptions[i].getAttribute('dur') + start;
-      const caption = new Caption(start, end, xmlCaptions[i].textContent);
+      const xmlCaption = xmlCaptions[i];
 
-      caption.domElement.addEventListener('click', () => {
-        this.seekToIndex(i);
-      });
+      try {
+        const start: number = +assertExists(xmlCaption.getAttribute('start'));
+        const end: number = +assertExists(xmlCaption.getAttribute('dur')) + start;
+        const caption = new Caption(start, end, assertExists(xmlCaption.textContent));
 
-      this.captions.push(caption);
-      this.captionBox.append(caption.domElement);
-      this.captionBox.scrollTop = 0;
+        caption.domElement.addEventListener('click', () => {
+          this.seekToIndex(i);
+        });
+
+        this.captions.push(caption);
+        this.captionBox.append(caption.domElement);
+        this.captionBox.scrollTop = 0;
+      } catch (e) {
+        if (e instanceof TypeError) {
+          window.console?.warn('Found bad caption', xmlCaption);
+        }
+      }
     }
   }
 
@@ -100,7 +110,6 @@ export class Transcript {
   }
 
   onStateChange = (event: YT.OnStateChangeEvent) => {
-    console.log(event);
     if (event.data === YT.PlayerState.PLAYING) {
       this.started();
     } else {
@@ -131,8 +140,9 @@ export class Transcript {
       if (!isWithinParentViewport(this.currentCaption.domElement)) {
         // Defer this so that it'll take effect after the page gets updated with the highlight class
         setTimeout(() => {
-          const offset = this.currentCaption.domElement.offsetTop;
-          this.captionBox.scrollTop = offset;
+          if (this.currentCaption) { // double check in case it changed during timeout
+            this.captionBox.scrollTop = this.currentCaption.domElement.offsetTop;
+          }
         }, 0);
       }
     }
@@ -175,7 +185,7 @@ export class Transcript {
 
   insertAfterVideoFrame = (el: HTMLElement) => {
     try {
-      document.getElementById(this.videoID).after(el);
+      assertExists(document.getElementById(this.videoID)).after(el);
     } catch (e) {
       if (e instanceof TypeError) {
         throw new ReferenceError("Couldn't insert caption container by player ID.");

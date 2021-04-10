@@ -34,8 +34,15 @@ export function get(url: string): Promise<Document> {
 
 export function isWithinParentViewport(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
-  const parentRect = element.parentElement.getBoundingClientRect();
+  const parentRect = assertExists(element.parentElement).getBoundingClientRect();
   return (
     rect.top >= parentRect.top && rect.bottom <= parentRect.bottom
   );
+}
+
+export function assertExists<T>(val: T | null | undefined): T {
+  if (val == null) {
+    throw new TypeError('Value may not be null.');
+  }
+  return val;
 }

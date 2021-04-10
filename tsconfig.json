@@ -7,6 +7,7 @@
     "jsx": "react",
     "allowJs": true,
     "sourceMap": true,
-    "lib": ["DOM", "ESNext"]
+    "lib": ["DOM", "ESNext"],
+    "strictNullChecks": true,
   }
 }
