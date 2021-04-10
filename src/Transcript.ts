@@ -38,10 +38,6 @@ export class Transcript {
   ) {
     this.videoID = videoID;
 
-    if (!this.playerElement) {
-      throw new ReferenceError("Couldn't locate video embed frame.");
-    }
-
     let url = TRANSCRIPT_URL + videoID;
 
     if (lang) {
