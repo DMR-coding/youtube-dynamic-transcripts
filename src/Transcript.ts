@@ -32,7 +32,7 @@ export class Transcript {
   private container: HTMLElement;
 
   constructor(
-    videoID: string, lang: string, transcriptName: string,
+    videoID: string, lang: string, transcriptName?: string,
     frameID?: string, // Defaults to same as videoID
     insertContainer?: (container: HTMLElement) => void,
   ) {
@@ -90,13 +90,14 @@ export class Transcript {
 
         this.captions.push(caption);
         this.captionBox.append(caption.domElement);
-        this.captionBox.scrollTop = 0;
       } catch (e) {
         if (e instanceof TypeError) {
           window.console?.warn('Found bad caption', xmlCaption);
         }
       }
     }
+
+    this.captionBox.scrollTop = 0;
   }
 
   seekToIndex = (i: number) => {
@@ -136,18 +137,26 @@ export class Transcript {
 
     if (this.currentCaption) {
       toggleClass(this.currentCaption.domElement, 'highlight', true);
-
-      if (!isWithinParentViewport(this.currentCaption.domElement)) {
-        // Defer this so that it'll take effect after the page gets updated with the highlight class
-        setTimeout(() => {
-          if (this.currentCaption) { // double check in case it changed during timeout
-            this.captionBox.scrollTop = this.currentCaption.domElement.offsetTop;
-          }
-        }, 0);
-      }
+      this.ensureCurrentCaptionVisible();
     }
 
     this.waitForNextCaption();
+  }
+
+  ensureCurrentCaptionVisible = () => {
+    if (!this.currentCaption) {
+      return;
+    }
+
+    if (!isWithinParentViewport(this.currentCaption.domElement)) {
+      // Defer this so that it'll take effect after the page gets updated with the highlight class
+      setTimeout(() => {
+        if (this.currentCaption) { // double check in case it changed during async
+          const deadspace = (this.captionBox.firstElementChild as HTMLElement).offsetTop;
+          this.captionBox.scrollTop = this.currentCaption.domElement.offsetTop - deadspace;
+        }
+      }, 0);
+    }
   }
 
   waitForNextCaption = () => {
